@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+<div style="font-family: 'Arial', sans-serif; max-width: 700px; margin: 50px auto; padding: 30px; background-color: #f9f9f9; border-radius: 12px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);">
+    <h2 style="text-align: center; margin-bottom: 30px; color: #222; font-size: 1.8em; font-weight: bold;">
+        Upload Music
+    </h2>
+    <form method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 20px;">
+        {% csrf_token %}
+        
+        <!-- Styled Form Fields -->
+        <div>
+            {{ form.as_p }}
+        </div>
+
+        <!-- Styled Submit Button -->
+        <button 
+            type="submit" 
+            style="background: linear-gradient(90deg, #007BFF, #00D4FF); color: white; padding: 12px 20px; border: none; border-radius: 8px; font-size: 1em; font-weight: bold; cursor: pointer; transition: all 0.3s ease;">
+            Upload
+        </button>
+    </form>
+</div>
+
+<!-- Modernized Audio Player -->
+<div style="margin-top: 40px; text-align: center;">
+    <h3 style="font-size: 1.5em; margin-bottom: 20px; color: #444;">Enjoy Your Music</h3>
+    <audio controls style="width: 100%; max-width: 700px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+        <source src="path_to_audio_file.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+</div>
+
+<style>
+    /* Add Smooth Hover Effect for Buttons */
+    button:hover {
+        background: linear-gradient(90deg, #0056b3, #00a8cc);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Responsive Design for Small Screens */
+    @media (max-width: 768px) {
+        div {
+            padding: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 0.9em;
+        }
+    }
+</style>
+{% endblock %}

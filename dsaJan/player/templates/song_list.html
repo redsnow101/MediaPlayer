@@ -1,0 +1,74 @@
+<div style="font-family: Arial, sans-serif; margin: 20px;">
+    <!-- Top Actions: Add Album, Add Song, and Play Random Song -->
+    <div style="margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <a href="{% url 'upload_album' %}" 
+               style="margin-right: 10px; text-decoration: none; padding: 10px 15px; background-color: #007BFF; color: white; border-radius: 4px;">
+               Add Album
+            </a>
+            <a href="{% url 'upload_song' %}" 
+               style="text-decoration: none; padding: 10px 15px; background-color: #28A745; color: white; border-radius: 4px;">
+               Add Song
+            </a>
+        </div>
+        <form method="post" action="{% url 'play_random_song' %}" style="margin: 0;">
+            {% csrf_token %}
+            <button 
+                type="submit" 
+                style="padding: 10px 15px; border: none; background-color: #FFC107; color: black; border-radius: 4px; cursor: pointer;">
+                Play Random Song
+            </button>
+        </form>
+    </div>
+    
+    <!-- Search Form -->
+    <form method="get" action="" style="margin-bottom: 20px;">
+        <input 
+            type="text" 
+            name="q" 
+            placeholder="Search songs, albums, or artists..." 
+            value="{{ query }}" 
+            style="padding: 10px; width: 80%; border: 1px solid #ddd; border-radius: 4px;">
+        <button 
+            type="submit" 
+            style="padding: 10px 15px; border: none; background-color: #007BFF; color: white; border-radius: 4px; cursor: pointer;">
+            Search
+        </button>
+    </form>
+    
+    <!-- All Songs List -->
+    <h2 style="margin-bottom: 20px; color: #333;">All Songs</h2>
+    <ul style="list-style: none; padding: 0;">
+        {% for song in songs %}
+            <li style="margin-bottom: 15px; padding: 10px; border-bottom: 1px solid #f0f0f0;">
+                <strong style="font-size: 1.2em;">{{ song.title }}</strong>
+                <span style="color: #555;"> ({{ song.duration }})</span>
+                <span style="color: #888;"> - Album: {{ song.album.title }}</span>
+                <div style="margin-top: 10px;">
+                    <audio controls style="width: 100%; border-radius: 5px;" class="audio-player">
+                        <source src="{{ song.audio_file.url }}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </li>
+        {% empty %}
+            <p>No songs found.</p>
+        {% endfor %}
+    </ul>
+</div>
+
+<!-- JavaScript to ensure only one audio plays at a time -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const audioPlayers = document.querySelectorAll('.audio-player');
+        audioPlayers.forEach(player => {
+            player.addEventListener('play', function () {
+                audioPlayers.forEach(otherPlayer => {
+                    if (otherPlayer !== player) {
+                        otherPlayer.pause();
+                    }
+                });
+            });
+        });
+    });
+</script>

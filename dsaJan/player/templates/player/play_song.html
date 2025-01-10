@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play Song</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f7f7f7;
+        }
+        .player {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background: #007BFF;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="player">
+        <h2>{{ song.title }}</h2>
+        <p>Album: {{ song.album.title }}</p>
+        <p>Duration: {{ song.duration }}</p>
+        
+        <audio controls autoplay style="width: 100%; margin: 20px 0;">
+            <source src="{{ song.audio_file.url }}" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+        
+        {% comment %} <div>
+            <form method="get" action="{% url 'play_song' song.id|add:-1 %}" style="display: inline;">
+                <button type="submit">Previous</button>
+            </form>
+            <form method="get" action="{% url 'play_song' song.id|add:1 %}" style="display: inline;">
+                <button type="submit">Next</button>
+            </form>
+        </div> {% endcomment %}
+
+
+
+
+        <div>
+            <a href="{% url 'play_song' prev_song_id %}">
+                <button>Previous</button>
+            </a>
+            <a href="{% url 'play_song' next_song_id %}">
+                <button>Next</button>
+            </a>
+        </div>
+        
+    </div>
+</body>
+</html>
